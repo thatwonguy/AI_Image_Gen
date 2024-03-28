@@ -1,11 +1,18 @@
 from diffusers import StableDiffusionPipeline
 import torch
+import streamlit as st
 
-model_id = "runwayml/stable-diffusion-v1-5"
-pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pipe = pipe.to("cuda")
+@st.cache_resource
+def pipe_model():
+    model_id = "runwayml/stable-diffusion-v1-5"
+    pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float32)
+    # pipe = pipe.to("cuda")
+    return pipe
 
-prompt = "a photo of an astronaut riding a horse on mars"
-image = pipe(prompt).images[0]  
-    
-image.save("test.png")
+prompt = st.text_input("Write a description of the image you want to generate:")
+
+pipe = pipe_model()
+
+if prompt:
+    image = pipe(prompt).images[0]
+    st.image(image, use_column_width=True)
