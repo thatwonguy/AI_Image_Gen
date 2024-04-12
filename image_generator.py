@@ -1,7 +1,7 @@
-# from diffusers import StableDiffusionPipeline
 from diffusers import DiffusionPipeline
 import torch
 import streamlit as st
+
 
 @st.cache_resource
 def pipe_model():
