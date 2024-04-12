@@ -2,5 +2,4 @@
 config.yaml
 secrets.toml
 image
-
 aws_connection_test.py
